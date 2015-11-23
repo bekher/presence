@@ -1,0 +1,43 @@
+#!/bin/bash
+
+BACKDOOR_FILE_OUT=possible_bad_procs
+BACKDOOR_FILE_TMP=backdoors_tmp
+
+echo "[*] Presence post-detection clean up script is being run"
+
+echo ""
+
+echo "[*] This script is not complete by any means, use this as a guide to rootkit removal."
+
+echo ""
+
+echo "[*] Searching for possible backdoors"
+
+echo ""
+
+sleep 1
+
+echo "[*] Possible Backdoors:"
+
+echo ""
+
+sudo lsof -i | awk '{print $2}' > $BACKDOOR_FILE_TMP
+
+echo ""
+ps -A | grep --file=$BACKDOOR_FILE_TMP
+
+echo ""
+
+echo "[*] Saving in ${BACKDOOR_FILE_OUT}"
+
+ps -A | grep --file=$BACKDOOR_FILE_TMP > $BACKDOOR_FILE_OUT
+
+rm $BACKDOOR_FILE_TMP
+
+echo ""
+
+sleep .25
+
+echo "[*] End of script"
+
+echo ""

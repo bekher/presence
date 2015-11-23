@@ -1,0 +1,53 @@
+#!/bin/bash
+
+echo ""
+echo "COPYRIGHT GREGORY BEKHER 2012"
+echo ""
+echo "[*] Uninstalling presence"
+
+KMAM_CORE_MODNAME=presence_core.ko
+KMAM_COM_X=usrcom
+SUCCESS=1
+
+sleep .5
+
+echo ""
+echo "[*] Removing core"
+echo ""
+
+if sudo rmmod $KMAM_CORE_MODNAME ; then
+	echo "[*] Core removed successfully"
+else
+	echo "" ;echo "[!] Error: Cannot remove core. Is anti-deletion enabled?";
+	SUCCESS=0
+fi
+
+echo ""
+echo "[*] Uninstalling post-detection tools"
+echo ""
+
+if ps -A | grep $KMAM_COM_X ; then
+	echo ""
+	echo "[*] Comlink with imagename ${KMAM_COM_X} will kill itself."
+	sleep 5
+else
+	echo "[!] Error: comlink with imagename ${KMAM_COM_X} cannot be found"
+	echo ""
+	echo "[!] Is the Presence Demo already uninstalled?"
+	echo ""
+
+
+fi
+
+sleep .25
+
+if [ $SUCCESS -eq 1 ]
+then
+	echo ""
+
+	echo "[*] Presence uninstalled "
+
+else
+	echo "[!] Error: Presence could not be completely uninstalled"
+fi
+echo ""

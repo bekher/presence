@@ -1,0 +1,119 @@
+#!/bin/bash
+
+KMAM_CORE_MODNAME=presence_core.ko
+KMAM_CORE_SOURCENAME=presence_core.c
+KMAM_COM_X=usrcom
+KMAM_COM_SOURCENAME=communicator.c
+INCLUDE_DIR=include/
+
+echo ""
+sleep .1
+echo "        GGGGGGGGGGGGGG         GGGGGGGGGGGGGG         GGGGGGGGGGGGGG "
+sleep .1
+echo "       GGG                    GGG                    GGG             "
+sleep .1
+echo "      GGG                    GGG                    GGG              "
+sleep .1
+echo "      GGG                    GGG                    GGG              "
+sleep .1
+echo "      GGG         GGGG       GGG         GGGG       GGG         GGGG "
+sleep .1
+echo "      GGG          GGG       GGG          GGG       GGG          GGG "
+sleep .1
+echo "       GGG          GG        GGG          GG        GGG          GG "
+sleep .1
+echo "        GGGGGGGGGGGGGG         GGGGGGGGGGGGGG         GGGGGGGGGGGGGG "
+sleep .1
+echo " "
+sleep .1
+echo "                            G. B.  S Y S T E M S      "
+sleep .1
+echo ""
+sleep .1
+echo "               R O O T K I T  D E T E C T I O N  S U I T E  0.4"
+sleep .1
+echo ""
+sleep .1
+echo "                       C O D E N A M E  P R E S E N C E      "
+sleep .1
+echo ""
+sleep .1
+echo "COPYRIGHT GREGORY BEKHER 2012"
+sleep .1
+echo ""
+
+sleep 1
+
+echo "[*] Installing Presence Suite Demo"
+echo ""
+
+sleep 1
+
+echo "[*] Running configuration script"
+./configure
+
+sleep .1
+
+echo "[*] Compiling core"
+echo ""
+
+make clean
+
+sleep .1
+
+if make; then
+	echo ""
+	echo "[*] Core compilied successfully"
+	echo ""
+else
+	echo "[!] Fatal: cannot compile core" 1>&2
+	exit 1
+fi
+
+echo "[*] Compiling comlink"
+echo ""
+
+if gcc communicator.c -o $KMAM_COM_X -I $INCLUDE_DIR ; then
+	echo "[*] Comlink compilied successfully"
+	echo ""
+
+else
+	echo "[!] Fatal: cannot compile comlink" 1>&2
+	exit 1
+fi
+
+echo "[*] Installing core"
+echo ""
+
+sleep .1
+
+if sudo insmod $KMAM_CORE_MODNAME; then
+	echo "[*] Core installed"
+	echo ""
+
+else
+	echo "[!] Fatal: cannot install core." 1>&2
+	exit 1
+fi
+
+echo "[*] Running comlink"
+
+sudo ./$KMAM_COM_X &
+
+PID_COMLINK=$!
+CLEAN_SH=clean
+
+echo ""
+echo "[*] Comlink up and in background with process ID ${PID_COMLINK}"
+
+sleep 2
+
+echo ""
+echo "[*] Presence Installation Complete"
+echo ""
+
+#if grep "if ps -A | grep" $CLEAN_SH ; then
+#	grep -v "if ps -A | grep" ${CLEAN_SH} > ${CLEAN_SH} ;
+#
+#fi
+#	echo "if ps -A | grep ${PID_COMLINK}; then kill ${PID_COMLINK}; fi" >> $CLEAN_SH

